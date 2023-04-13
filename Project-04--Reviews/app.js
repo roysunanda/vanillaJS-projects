@@ -41,3 +41,83 @@ const info = document.getElementById("info");
 const prevBtn = document.querySelector(".prev-btn");
 const nextBtn = document.querySelector(".next-btn");
 const randomBtn = document.querySelector(".random-btn");
+
+// load initial item
+let currentItem = 1;
+
+window.addEventListener("DOMContentLoaded", function () {
+	const item = reviews[currentItem];
+
+	img.src = item.img;
+	author.textContent = item.name;
+	job.textContent = item.job;
+	info.textContent = item.text;
+});
+
+// show person based on item
+function showPerson(person) {
+	const item = reviews[person];
+
+	img.src = item.img;
+	author.textContent = item.name;
+	job.textContent = item.job;
+	info.textContent = item.text;
+}
+
+// show next person
+nextBtn.addEventListener("click", function () {
+	currentItem++;
+	if (currentItem > reviews.length - 1) {
+		currentItem = 0;
+	}
+	showPerson(currentItem);
+	// console.log(currentItem);
+});
+
+// show previous person
+prevBtn.addEventListener("click", function () {
+	currentItem--;
+	if (currentItem < 0) {
+		currentItem = reviews.length - 1;
+	}
+	showPerson(currentItem);
+	// console.log(currentItem);
+});
+
+// random background color
+const hex = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "A", "B", "C", "D", "E", "F"];
+
+let min = 0;
+let max = hex.length - 1;
+
+function RandomGen() {
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
+function HEXgen() {
+	let hexValue = "#";
+	for (let i = 0; i < 6; i++) {
+		hexValue += hex[RandomGen()];
+	}
+	return hexValue;
+}
+
+const backColor = document.querySelector(".back-color");
+
+// show random person
+function randomGen() {
+	let min = 0;
+	let max = reviews.length - 1;
+	return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+randomBtn.addEventListener("click", function () {
+	// console.log(reviews.length);
+	currentItem = randomGen();
+	// console.log(currentItem);
+	showPerson(currentItem);
+
+	let hexColor = HEXgen();
+	document.body.style.backgroundColor = hexColor;
+
+	// console.log(hexColor);
+});
